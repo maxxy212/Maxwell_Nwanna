@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Ceva</string>
+
+    <!--Global-->
+    <string name="conn_error">Error Connecting, Please Check Your Internet Connection</string>
+    <string name="parse_error">Oops! Could Not Process Your Request, Please Try Again</string>
+    <string name="req_error">Your Request Has Been Canceled..</string>
+    <string name="server_error">Server Error!</string>
+    <string name="no_response">Could not get response</string>
+    <string name="error">Error</string>
+    <string name="network_error">Network Error</string>
+    <string name="load">Loading…</string>
+
+    <!--MainActivity-->
+    <string name="press">Press Play</string>
+</resources>
