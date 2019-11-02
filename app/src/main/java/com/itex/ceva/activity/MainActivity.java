@@ -1,24 +1,26 @@
 package com.itex.ceva.activity;
 
+import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-
+import com.itex.ceva.BaseApplication;
 import com.itex.ceva.R;
 import com.itex.ceva.databinding.ActivityMainBinding;
-import com.itex.ceva.network.ApiCallHandler;
 import com.itex.ceva.network.ServiceResultReceiver;
 import com.itex.ceva.network.background.GetCevaDataService;
-import com.itex.ceva.network.calls.CevaApiCall;
 import com.itex.ceva.util.DialogUtil;
 import com.itex.ceva.util.ToastUtil;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import java.util.List;
 import java.util.Objects;
+
+import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity implements ServiceResultReceiver.Receiver {
 
@@ -30,10 +32,15 @@ public class MainActivity extends AppCompatActivity implements ServiceResultRece
     private int position = 1;
     private Handler handler;
 
+    @Inject Context context;
+    @Inject Toast toast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        ((BaseApplication)getApplication()).getAppComponent().inject(this);
+
         dialogUtil = new DialogUtil(this, null);
         mServiceResultReceiver = new ServiceResultReceiver(new Handler());
         mServiceResultReceiver.setReceiver(this);
@@ -58,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements ServiceResultRece
                         kProgressHUD.dismiss();
                         String val = resultData.getString(GetCevaDataService.KEY);
                         binding.text.setText(val);
-                        GetCevaDataService.startActionRefresh(this, GetCevaDataService.TYPE_2, mServiceResultReceiver);
+                        GetCevaDataService.startActionRefresh(context, GetCevaDataService.TYPE_2, mServiceResultReceiver);
                         position++;
                         break;
                     case 2:
@@ -71,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements ServiceResultRece
                                 }
                                 handler.post(() -> {
                                     binding.text.setText(finalVal.toString());
-                                    GetCevaDataService.startActionRefresh(MainActivity.this, GetCevaDataService.TYPE_3, mServiceResultReceiver);
+                                    GetCevaDataService.startActionRefresh(context, GetCevaDataService.TYPE_3, mServiceResultReceiver);
                                     position++;
                                 });
                             }).start();
@@ -82,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements ServiceResultRece
                             int all_val = resultData.getInt(GetCevaDataService.KEY);
                             binding.text.setText(String.valueOf(all_val));
                             position = 1;
+                            toast.show();
                         }, 2000);
                         break;
                 }
@@ -90,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements ServiceResultRece
             if (resultData != null) {
                 kProgressHUD.dismiss();
                 ToastUtil.makeToast(this, resultData.getString(GetCevaDataService.KEY));
+                toast.show();
             }
         }
     }

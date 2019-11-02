@@ -1,35 +1,26 @@
 package com.itex.ceva;
 
-import android.content.Context;
-
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
-
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.HashMap;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertThat;
 
 /**
- * Instrumented test, which will execute on an Android device.
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * Package com.itex.ceva in
+ * <p>
+ * Project Ceva
+ * <p>
+ * Created by Maxwell on 2019-11-02
  */
-@RunWith(AndroidJUnit4.class)
-public class ExampleInstrumentedTest {
-    @Test
-    public void useAppContext() {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.itex.ceva", appContext.getPackageName());
+public class GetCevaDataServiceTest {
 
+    @Test
+    public void countUniquedWords(){
         // Extracting words from string
         String str = "truw jdshs kwhbx wknjuw kxjubxw xnibxw xkwlbdwj xkbxuiw xckbnbuiw";
         Pattern p = Pattern.compile("[a-zA-Z]+");
